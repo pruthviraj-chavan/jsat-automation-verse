@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion';
-import { Check, X, ArrowRight } from 'lucide-react';
+import { Check, X, ArrowRight, Zap, Shield, Cloud } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from './Image';
 
@@ -44,31 +44,84 @@ const ProductShowcase = () => {
       transition: { duration: 0.5 }
     }
   };
+  
+  const floatVariants = {
+    float: {
+      y: [-10, 10],
+      rotate: [-2, 2],
+      transition: {
+        y: {
+          repeat: Infinity,
+          repeatType: 'reverse',
+          duration: 3,
+          ease: 'easeInOut',
+        },
+        rotate: {
+          repeat: Infinity,
+          repeatType: 'reverse',
+          duration: 3,
+          ease: 'easeInOut',
+        }
+      }
+    }
+  };
 
   return (
-    <section className="section-padding animated-gradient-bg overflow-hidden relative">
+    <section className="section-padding bg-gradient-to-br from-jspurple/20 via-jsblue/30 to-jsaccent/20 dark:from-jspurple/10 dark:via-jsblue/20 dark:to-jsaccent/10 overflow-hidden relative">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-32 h-32 bg-jspurple/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-32 h-32 bg-jsaccent/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/4 right-1/3 w-40 h-40 bg-jsblue/10 rounded-full filter blur-3xl"></div>
+        
+        {/* Grid overlay */}
+        <div className="absolute inset-0 grid-pattern opacity-20"></div>
+        
+        {/* Particles */}
+        {Array.from({ length: 15 }).map((_, index) => (
+          <motion.div
+            key={index}
+            className="absolute w-2 h-2 rounded-full bg-jsaccent/30"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, 30, 0],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+      </div>
+      
       <div className="container mx-auto px-4 z-10 relative">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
           <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4 text-white"
+            className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white"
             variants={itemVariants}
           >
             Our Flagship Product
           </motion.h2>
           <motion.div 
-            className="text-2xl md:text-3xl font-bold gradient-text mb-3"
+            className="text-2xl md:text-4xl font-bold gradient-text mb-4"
             variants={itemVariants}
           >
             JSatOne
           </motion.div>
           <motion.p 
-            className="text-lg text-gray-200 max-w-2xl mx-auto"
+            className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
             variants={itemVariants}
           >
             An Omni Connected Software Platform Trusted By Industry Leaders
@@ -78,28 +131,28 @@ const ProductShowcase = () => {
             variants={itemVariants}
           >
             <span className="inline-flex items-center rounded-full bg-purple-100 dark:bg-purple-900/30 px-4 py-1 text-sm font-medium text-jspurple">
-              GxP Friendly
+              <Shield className="mr-1 h-4 w-4" /> GxP Friendly
             </span>
             <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-4 py-1 text-sm font-medium text-jsaccent">
-              Customizable
+              <Zap className="mr-1 h-4 w-4" /> Customizable
             </span>
             <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/30 px-4 py-1 text-sm font-medium text-green-600 dark:text-green-400">
-              Cloud/Hybrid Hosted
+              <Cloud className="mr-1 h-4 w-4" /> Cloud/Hybrid Hosted
             </span>
           </motion.div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-12 md:mb-16">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="space-y-6 order-2 md:order-1"
           >
-            <h3 className="text-2xl font-bold mb-4 text-white">Traditional Ownership vs JSatOne Advantage</h3>
+            <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Traditional Ownership vs JSatOne Advantage</h3>
             
-            <div className="bg-white dark:bg-jsblue/30 rounded-xl shadow-lg overflow-hidden backdrop-blur-md border border-white/10">
+            <div className="bg-white dark:bg-jsblue/20 rounded-xl shadow-lg overflow-hidden backdrop-blur-md border border-gray-200 dark:border-white/10">
               {advantages.map((item, index) => (
                 <motion.div 
                   key={index} 
@@ -129,7 +182,7 @@ const ProductShowcase = () => {
             >
               <Button 
                 size="lg" 
-                className="mt-6 bg-white text-jsblue hover:bg-gray-100 shadow-xl"
+                className="mt-6 bg-gradient-to-r from-jspurple to-jsaccent text-white hover:bg-gradient-to-r hover:from-jspurple/90 hover:to-jsaccent/90 shadow-xl"
               >
                 Request Demo <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -137,103 +190,136 @@ const ProductShowcase = () => {
           </motion.div>
           
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
             viewport={{ once: true }}
-            className="relative h-[450px] rounded-xl overflow-hidden"
+            className="relative order-1 md:order-2"
           >
-            <div className="absolute inset-0 bg-jsblue rounded-xl grid-pattern"></div>
-            
-            <motion.div 
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%]"
-              animate={{ 
-                y: [0, -10, 0],
-                rotateZ: [0, 2, 0],
-                rotateX: [0, 5, 0],
-                rotateY: [0, 3, 0]
-              }}
-              transition={{ 
-                repeat: Infinity,
-                duration: 5,
-                ease: "easeInOut"
-              }}
-            >
-              <div className="relative w-full h-full">
-                <div className="absolute inset-0 bg-gradient-to-br from-jspurple/30 to-jsaccent/30 backdrop-blur-sm rounded-xl shadow-2xl border border-white/20"></div>
-                
-                <div className="absolute inset-0 p-6 overflow-hidden">
-                  <div className="text-xl font-bold mb-4 gradient-text">JSatOne Modules</div>
+            <div className="relative h-[550px] md:h-[600px] flex items-center justify-center">
+              {/* Main circular backdrop */}
+              <motion.div 
+                className="absolute w-[90%] h-[90%] rounded-full bg-gradient-to-br from-jspurple/20 to-jsaccent/20 dark:from-jspurple/10 dark:to-jsaccent/10 backdrop-blur-sm"
+                animate={{ 
+                  rotate: 360,
+                }}
+                transition={{
+                  duration: 120,
+                  ease: "linear",
+                  repeat: Infinity,
+                }}
+              />
+              
+              {/* Central platform visualization */}
+              <motion.div 
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[75%] h-[75%] z-10"
+                variants={floatVariants}
+                animate="float"
+              >
+                <div className="relative w-full h-full rounded-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-jspurple/40 to-jsaccent/40 backdrop-blur-md rounded-xl shadow-2xl border border-white/20"></div>
                   
-                  <div className="grid grid-cols-2 gap-2">
-                    {modules.map((module, index) => (
-                      <motion.div 
-                        key={index} 
-                        className="bg-white/10 backdrop-blur-sm rounded-lg p-2 text-sm border border-white/10 text-white"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
-                        viewport={{ once: true }}
-                      >
-                        {module}
-                      </motion.div>
-                    ))}
-                  </div>
-                  
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="text-xs text-center bg-white/10 rounded-lg p-2 backdrop-blur-sm text-white">
-                      JSatOne brings all modules under one umbrella for seamless user experience
+                  <div className="absolute inset-0 p-6 overflow-hidden">
+                    <div className="text-xl md:text-2xl font-bold mb-4 text-white text-center">JSatOne Modules</div>
+                    
+                    <div className="grid grid-cols-2 gap-3">
+                      {modules.map((module, index) => (
+                        <motion.div 
+                          key={index} 
+                          className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-sm border border-white/10 text-white"
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.2)" }}
+                          transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
+                          viewport={{ once: true }}
+                        >
+                          {module}
+                        </motion.div>
+                      ))}
+                    </div>
+                    
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <div className="text-xs text-center bg-white/10 rounded-lg p-2 backdrop-blur-sm text-white">
+                        JSatOne brings all modules under one umbrella for seamless user experience
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Device mockups */}
-            <motion.div 
-              className="absolute bottom-10 right-5 w-60 h-40 bg-black rounded-lg overflow-hidden shadow-2xl"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              viewport={{ once: true }}
-              style={{ 
-                transform: "perspective(1000px) rotateY(-10deg) rotateX(5deg)",
-                transformStyle: "preserve-3d"
-              }}
-            >
-              <Image 
-                src="public/lovable-uploads/7f334f29-d0b7-4dd2-8028-e0f093ec08e9.png" 
-                alt="JSatOne Dashboard" 
-                layout="fill" 
-                objectFit="cover"
-              />
-            </motion.div>
-            
-            <motion.div 
-              className="absolute bottom-20 left-5 w-32 h-60 bg-black rounded-3xl overflow-hidden shadow-2xl"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
-              style={{ 
-                transform: "perspective(1000px) rotateY(10deg) rotateX(5deg)",
-                transformStyle: "preserve-3d"
-              }}
-            >
-              <Image 
-                src="public/lovable-uploads/7f334f29-d0b7-4dd2-8028-e0f093ec08e9.png" 
-                alt="JSatOne Mobile App" 
-                layout="fill" 
-                objectFit="cover"
-              />
-            </motion.div>
+              {/* Device mockups */}
+              <motion.div 
+                className="absolute top-[5%] right-[15%] w-40 h-60 md:w-48 md:h-72 bg-black rounded-3xl overflow-hidden shadow-2xl"
+                initial={{ opacity: 0, x: 50, y: 50 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+                viewport={{ once: true }}
+                style={{ 
+                  transform: "perspective(1000px) rotateY(-15deg) rotateX(5deg)",
+                  transformStyle: "preserve-3d"
+                }}
+              >
+                <Image 
+                  src="public/lovable-uploads/bf9ab57a-c7c3-4a13-b081-5f2aded52a18.png" 
+                  alt="JSatOne Mobile App" 
+                  layout="fill" 
+                  objectFit="cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+              </motion.div>
+              
+              <motion.div 
+                className="absolute bottom-[10%] left-[10%] w-60 h-40 md:w-72 md:h-48 bg-black rounded-lg overflow-hidden shadow-2xl"
+                initial={{ opacity: 0, x: -50, y: 50 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+                viewport={{ once: true }}
+                style={{ 
+                  transform: "perspective(1000px) rotateY(15deg) rotateX(5deg)",
+                  transformStyle: "preserve-3d"
+                }}
+              >
+                <Image 
+                  src="public/lovable-uploads/6911f094-a3e5-4c0c-b218-2b85adf63344.png" 
+                  alt="JSatOne Dashboard" 
+                  layout="fill" 
+                  objectFit="cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+              </motion.div>
+              
+              {/* Orbiting elements */}
+              {[1, 2, 3, 4].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-8 h-8 rounded-full bg-gradient-to-r from-jspurple to-jsaccent/50 flex items-center justify-center"
+                  style={{
+                    // Position at different angles around the circle
+                    left: `calc(50% + ${Math.cos(i * Math.PI / 2) * 40}%)`,
+                    top: `calc(50% + ${Math.sin(i * Math.PI / 2) * 40}%)`,
+                  }}
+                  animate={{
+                    rotate: [0, 360],
+                    scale: [1, 1.2, 1],
+                    boxShadow: [
+                      "0 0 5px rgba(139, 92, 246, 0.3)",
+                      "0 0 20px rgba(139, 92, 246, 0.6)",
+                      "0 0 5px rgba(139, 92, 246, 0.3)",
+                    ],
+                  }}
+                  transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    delay: i * 2,
+                  }}
+                >
+                  <span className="text-white text-xs">●</span>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </div>
-      
-      {/* Decorative elements */}
-      <div className="absolute top-10 left-10 w-32 h-32 bg-jspurple/30 rounded-full filter blur-3xl"></div>
-      <div className="absolute bottom-10 right-10 w-32 h-32 bg-jsaccent/30 rounded-full filter blur-3xl"></div>
     </section>
   );
 };

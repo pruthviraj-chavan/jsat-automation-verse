@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ImageProps {
   src: string;
@@ -21,9 +21,17 @@ const Image: React.FC<ImageProps> = ({
   height,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
+  
+  // Reset states when src changes
+  useEffect(() => {
+    setIsLoaded(false);
+    setError(false);
+  }, [src]);
 
   const styles: React.CSSProperties = {
     objectFit,
+    transition: "transform 0.3s ease, opacity 0.5s ease",
   };
 
   if (layout === "fill") {
@@ -39,6 +47,12 @@ const Image: React.FC<ImageProps> = ({
 
   return (
     <div className={`overflow-hidden ${layout === "responsive" ? "relative" : ""}`}>
+      {!isLoaded && !error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800/30 animate-pulse">
+          <div className="w-10 h-10 border-4 border-jsaccent border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      
       <img
         src={src}
         alt={alt}
@@ -46,9 +60,16 @@ const Image: React.FC<ImageProps> = ({
           isLoaded ? "opacity-100" : "opacity-0"
         } ${className}`}
         onLoad={() => setIsLoaded(true)}
+        onError={() => setError(true)}
         style={styles}
         loading="lazy"
       />
+      
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800/30 text-gray-500 dark:text-gray-400">
+          <span>Failed to load image</span>
+        </div>
+      )}
     </div>
   );
 };

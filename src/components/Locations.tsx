@@ -100,6 +100,9 @@ const Locations = () => {
     }
   };
 
+  // Generate random pulse delays for location pins
+  const getRandomDelay = () => Math.random() * 2;
+
   return (
     <section className="section-padding bg-gradient-to-br from-jsblue via-jsblue/95 to-jsblue/90 text-white overflow-hidden">
       <div className="container mx-auto px-4">
@@ -134,44 +137,193 @@ const Locations = () => {
         <div className="relative">
           {/* World Map */}
           <motion.div 
-            className="world-map h-[500px] md:h-[600px] mb-10 rounded-xl overflow-hidden"
+            className="world-map h-[500px] md:h-[600px] mb-10 rounded-xl overflow-hidden relative"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 1 }}
             viewport={{ once: true }}
           >
-            {/* Map Background */}
-            <Image 
-              src="public/lovable-uploads/322da8bf-92a9-4384-9e2b-19943b554345.png"
-              alt="World Map"
-              layout="fill"
-              objectFit="cover"
-            />
-            
-            {/* Location Pins */}
-            {locations.map((location, index) => (
+            {/* Earth Background with Glow */}
+            <div className="absolute inset-0 bg-jsblue/80 rounded-xl overflow-hidden">
               <motion.div
-                key={index}
-                className="location-pin"
-                style={{ 
-                  left: `${location.coordinates.x}%`, 
-                  top: `${location.coordinates.y}%`
+                className="absolute w-full h-full"
+                animate={{
+                  backgroundPosition: ['0% 0%', '100% 0%'],
+                  transition: {
+                    duration: 60,
+                    ease: "linear",
+                    repeat: Infinity,
+                  }
                 }}
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.5 + index * 0.1, duration: 0.3 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.5 }}
+                style={{
+                  background: `url('public/lovable-uploads/322da8bf-92a9-4384-9e2b-19943b554345.png')`,
+                  backgroundSize: '200% 100%',
+                  backgroundPosition: '0% 0%',
+                  filter: 'brightness(0.7) saturate(1.5)',
+                }}
               >
+                {/* Pulsing glow overlay */}
                 <motion.div 
-                  className="absolute -top-10 left-1/2 -translate-x-1/2 bg-jsblue/90 px-3 py-1 rounded-lg text-white text-xs whitespace-nowrap opacity-0 pointer-events-none"
-                  animate={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                >
-                  {location.city}
-                </motion.div>
+                  className="absolute inset-0 bg-jsaccent/10"
+                  animate={{
+                    opacity: [0.1, 0.3, 0.1],
+                  }}
+                  transition={{
+                    duration: 8,
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                  }}
+                />
               </motion.div>
-            ))}
+            </div>
+
+            {/* World Map with Moving Effect */}
+            <motion.div
+              className="absolute inset-0"
+              animate={{
+                y: [-10, 0, -10],
+                rotateZ: [0, 2, 0], 
+                rotateX: [0, 5, 0],
+                rotateY: [0, 3, 0]
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 20,
+                ease: "easeInOut"
+              }}
+            >
+              <Image 
+                src="public/lovable-uploads/322da8bf-92a9-4384-9e2b-19943b554345.png"
+                alt="World Map"
+                layout="fill"
+                objectFit="cover"
+                className="opacity-70"
+              />
+              
+              {/* Connection lines between locations */}
+              <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
+                <defs>
+                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#0EA5E9" stopOpacity="0.3" />
+                  </linearGradient>
+                </defs>
+                
+                {locations.map((location, i) => 
+                  locations.slice(i + 1).map((target, j) => {
+                    // Only draw some connections to avoid clutter
+                    if ((i + j) % 3 === 0) {
+                      return (
+                        <motion.path
+                          key={`line-${i}-${j}`}
+                          d={`M${location.coordinates.x}% ${location.coordinates.y}% Q${(location.coordinates.x + target.coordinates.x) / 2}% 
+                             ${Math.min(location.coordinates.y, target.coordinates.y) - 20}%, ${target.coordinates.x}% ${target.coordinates.y}%`}
+                          stroke="url(#lineGradient)"
+                          strokeWidth="1"
+                          fill="none"
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: 1, opacity: 1 }}
+                          transition={{ duration: 2, delay: 1 + (i * 0.2) }}
+                        />
+                      );
+                    }
+                    return null;
+                  })
+                )}
+              </svg>
+
+              {/* Location Pins with advanced animations */}
+              {locations.map((location, index) => (
+                <div
+                  key={index}
+                  className="location-pin-container absolute"
+                  style={{ 
+                    left: `${location.coordinates.x}%`, 
+                    top: `${location.coordinates.y}%`,
+                    zIndex: 5
+                  }}
+                >
+                  {/* Large outer pulse */}
+                  <motion.div
+                    className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-jsaccent/10"
+                    initial={{ width: 0, height: 0, opacity: 0 }}
+                    animate={{ 
+                      width: ['20px', '60px'], 
+                      height: ['20px', '60px'],
+                      opacity: [0.6, 0]
+                    }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 3,
+                      delay: getRandomDelay(),
+                      ease: "easeOut"
+                    }}
+                  />
+                  
+                  {/* Medium pulse */}
+                  <motion.div
+                    className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-jsaccent/20"
+                    initial={{ width: 0, height: 0, opacity: 0 }}
+                    animate={{ 
+                      width: ['10px', '40px'], 
+                      height: ['10px', '40px'],
+                      opacity: [0.8, 0]
+                    }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 2.5,
+                      delay: getRandomDelay(),
+                      ease: "easeOut"
+                    }}
+                  />
+                  
+                  {/* The pin itself */}
+                  <motion.div
+                    className="absolute -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-jsaccent shadow-[0_0_10px_rgba(14,165,233,0.7)]"
+                    initial={{ scale: 0, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.5 + index * 0.1, duration: 0.3 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.5, backgroundColor: '#8B5CF6' }}
+                  />
+                  
+                  {/* City name */}
+                  <motion.div 
+                    className="absolute -top-10 left-1/2 -translate-x-1/2 bg-jsblue/90 px-3 py-1 rounded-lg text-white text-xs whitespace-nowrap opacity-0 pointer-events-none border border-jsaccent/30 shadow-lg"
+                    animate={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {location.city}
+                  </motion.div>
+                </div>
+              ))}
+              
+              {/* Adding data flow animations */}
+              {Array.from({ length: 10 }).map((_, index) => (
+                <motion.div
+                  key={`data-flow-${index}`}
+                  className="absolute w-1 h-1 rounded-full bg-jsaccent/80 shadow-[0_0_5px_rgba(14,165,233,0.8)]"
+                  initial={{ 
+                    top: `${30 + Math.random() * 40}%`, 
+                    left: 0,
+                    opacity: 0.8,
+                    scale: 0.5
+                  }}
+                  animate={{ 
+                    left: ['0%', '100%'],
+                    opacity: [0, 1, 0],
+                    scale: [0.5, 1.5, 0.5]
+                  }}
+                  transition={{ 
+                    duration: 5 + Math.random() * 10, 
+                    repeat: Infinity,
+                    delay: Math.random() * 5,
+                    ease: "linear"
+                  }}
+                />
+              ))}
+            </motion.div>
           </motion.div>
 
           {/* Location Grid */}
@@ -187,10 +339,12 @@ const Locations = () => {
                 key={index}
                 className="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:bg-white/10 transition duration-300"
                 variants={itemVariants}
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -5, boxShadow: '0 10px 30px -15px rgba(14, 165, 233, 0.3)' }}
               >
                 <div className="flex items-start gap-3">
-                  <MapPin className="text-jsaccent mt-1 flex-shrink-0" />
+                  <div className="bg-jsaccent/20 p-2 rounded-full mt-1 flex-shrink-0">
+                    <MapPin className="text-jsaccent h-5 w-5" />
+                  </div>
                   <div>
                     <h3 className="font-bold text-white">{location.city}</h3>
                     <p className="text-xs text-gray-400">{location.address}</p>
