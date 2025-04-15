@@ -2,9 +2,13 @@
 import { useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Terminal, Cpu, Database } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useTheme } from "next-themes";
 
 const Hero3D = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === 'dark';
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -18,7 +22,7 @@ const Hero3D = () => {
 
           // Set up scene
           const scene = new THREE.Scene();
-          scene.background = new THREE.Color(0x1A1F2C);
+          scene.background = new THREE.Color(isDarkMode ? 0x1A1F2C : 0xf5f8ff);
 
           // Set up camera
           const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -78,7 +82,7 @@ const Hero3D = () => {
 
           const geometry3 = new THREE.TorusGeometry(0.7, 0.2, 16, 100);
           const material3 = new THREE.MeshPhongMaterial({ 
-            color: 0xFFFFFF,
+            color: isDarkMode ? 0xFFFFFF : 0x333333,
             shininess: 100,
             specular: 0x444444
           });
@@ -87,7 +91,9 @@ const Hero3D = () => {
           group.add(torus);
 
           // Connect objects with lines
-          const lineMaterial = new THREE.LineBasicMaterial({ color: 0x8B5CF6 });
+          const lineMaterial = new THREE.LineBasicMaterial({ 
+            color: isDarkMode ? 0x8B5CF6 : 0x6D28D9 
+          });
           
           const points1 = [];
           points1.push(new THREE.Vector3(-1.5, 0, 0));
@@ -158,10 +164,10 @@ const Hero3D = () => {
 
       importThree();
     }
-  }, []);
+  }, [isDarkMode]);
 
   return (
-    <div className="relative w-full h-screen hero-gradient overflow-hidden">
+    <div className={`relative w-full h-screen overflow-hidden ${isDarkMode ? 'hero-dark-gradient' : 'hero-light-gradient'}`}>
       {/* 3D Canvas */}
       <canvas 
         ref={canvasRef} 
@@ -171,46 +177,75 @@ const Hero3D = () => {
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 z-10 grid-pattern opacity-40"></div>
       
+      {/* Animated gradient background circles */}
+      <div className="absolute top-1/4 -left-20 w-80 h-80 bg-jspurple/20 rounded-full filter blur-3xl opacity-60 animate-pulse"></div>
+      <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-jsaccent/20 rounded-full filter blur-3xl opacity-60 animate-pulse"></div>
+      
       {/* Content */}
       <div className="relative z-20 container mx-auto h-full flex flex-col justify-center px-4 pt-24 pb-12">
         <div className="max-w-3xl">
-          <div className="flex items-center space-x-2 mb-4">
+          <motion.div 
+            className="flex items-center space-x-2 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             <Cpu size={24} className="text-jspurple" />
             <span className="text-jspurple font-medium">Innovation & Technology</span>
-          </div>
+          </motion.div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <motion.h1 
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900 dark:text-white"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             At The Heart Of Your <span className="gradient-text">Innovation</span>
-          </h1>
+          </motion.h1>
           
-          <p className="text-lg md:text-xl mb-8 max-w-2xl">
+          <motion.p 
+            className="text-lg md:text-xl mb-8 max-w-2xl text-gray-700 dark:text-gray-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             JSat is a global technology company with over a decade of experience, specializing in automation, 
             IT/OT convergence, and compliance to expedite your transition to Industry 4.0 and beyond.
-          </p>
+          </motion.p>
           
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button size="lg" className="bg-jspurple hover:bg-jspurple/90">
+          <motion.div 
+            className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Button size="lg" className="bg-jspurple hover:bg-jspurple/90 shadow-lg shadow-jspurple/30">
               Explore Services <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button size="lg" variant="outline" className="border-jspurple text-jspurple hover:bg-jspurple/10">
               Contact Sales
             </Button>
-          </div>
+          </motion.div>
           
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20 flex items-center space-x-3">
+          <motion.div 
+            className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <div className="bg-white/20 dark:bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20 flex items-center space-x-3 hover:bg-white/30 dark:hover:bg-white/20 transition duration-300">
               <Terminal className="text-jspurple" />
-              <span>Process Control</span>
+              <span className="text-gray-800 dark:text-white">Process Control</span>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20 flex items-center space-x-3">
+            <div className="bg-white/20 dark:bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20 flex items-center space-x-3 hover:bg-white/30 dark:hover:bg-white/20 transition duration-300">
               <Database className="text-jspurple" />
-              <span>IT/OT Convergence</span>
+              <span className="text-gray-800 dark:text-white">IT/OT Convergence</span>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20 flex items-center space-x-3">
+            <div className="bg-white/20 dark:bg-white/10 backdrop-blur-sm p-4 rounded-lg border border-white/20 flex items-center space-x-3 hover:bg-white/30 dark:hover:bg-white/20 transition duration-300">
               <Cpu className="text-jspurple" />
-              <span>Lab Automation</span>
+              <span className="text-gray-800 dark:text-white">Lab Automation</span>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

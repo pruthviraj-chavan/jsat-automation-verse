@@ -8,6 +8,7 @@ import ProductShowcase from "@/components/ProductShowcase";
 import TestimonialSlider from "@/components/TestimonialSlider";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
+import Locations from "@/components/Locations";
 
 import { Terminal, Server, Database, FileText, Beaker, CheckSquare, Building } from "lucide-react";
 import { motion } from "framer-motion";
@@ -24,7 +25,7 @@ const Index = () => {
     // Add keywords meta tag for SEO
     const metaKeywords = document.createElement('meta');
     metaKeywords.name = 'keywords';
-    metaKeywords.content = 'automation, process control, IT/OT convergence, MES, regulatory compliance, lab automation, validation, building automation systems, industrial automation';
+    metaKeywords.content = 'automation, process control, IT/OT convergence, MES, regulatory compliance, lab automation, validation, building automation systems, industrial automation, Industry 4.0, digital transformation, manufacturing execution systems, smart factory, IoT, cloud automation';
     document.head.appendChild(metaKeywords);
     
     return () => {
@@ -39,55 +40,63 @@ const Index = () => {
       icon: <Terminal size={24} />,
       title: "Process Control",
       description: "Advanced automation solutions for manufacturing processes",
-      features: ["S88 Batch", "Integration (DCS, SCADA)", "Cloud OT", "Life Cycle Documentation", "Validation"]
+      features: ["S88 Batch", "Integration (DCS, SCADA)", "Cloud OT", "Life Cycle Documentation", "Validation"],
+      imageSrc: "public/lovable-uploads/6c73da78-a151-4b94-8946-1af8344f37fa.png"
     },
     {
       icon: <Server size={24} />,
       title: "IT/OT Convergence",
       description: "Bridging Information and Operational Technology systems",
-      features: ["Server-Network infra", "Upgrades and Migrations", "Cloud & Hybrid Deployments", "Cybersecurity", "Data Integrity"]
+      features: ["Server-Network infra", "Upgrades and Migrations", "Cloud & Hybrid Deployments", "Cybersecurity", "Data Integrity"],
+      imageSrc: "public/lovable-uploads/6c73da78-a151-4b94-8946-1af8344f37fa.png"
     },
     {
       icon: <Database size={24} />,
       title: "MES/MOM",
       description: "Manufacturing Execution Systems for operational excellence",
-      features: ["Recipe Authoring", "S95 Architecture", "Batch Reports", "OEE & Downtime Tracking", "Work Orders"]
+      features: ["Recipe Authoring", "S95 Architecture", "Batch Reports", "OEE & Downtime Tracking", "Work Orders"],
+      imageSrc: "public/lovable-uploads/6c73da78-a151-4b94-8946-1af8344f37fa.png"
     },
     {
       icon: <FileText size={24} />,
       title: "Regulatory",
       description: "Compliance and documentation for regulated industries",
-      features: ["Regulatory Dossiers", "Regulatory Affairs Strategy", "Remediation Documents", "Merger & Acquisition Analysis", "QOS"]
+      features: ["Regulatory Dossiers", "Regulatory Affairs Strategy", "Remediation Documents", "Merger & Acquisition Analysis", "QOS"],
+      imageSrc: "public/lovable-uploads/6c73da78-a151-4b94-8946-1af8344f37fa.png"
     },
     {
       icon: <Beaker size={24} />,
       title: "Lab Automation",
       description: "Advanced solutions for laboratory processes",
-      features: ["Work-Cell Development", "EFMEA & Risk Management", "Custom Tools", "OTS Robotics", "Full Validation"]
+      features: ["Work-Cell Development", "EFMEA & Risk Management", "Custom Tools", "OTS Robotics", "Full Validation"],
+      imageSrc: "public/lovable-uploads/6c73da78-a151-4b94-8946-1af8344f37fa.png"
     },
     {
       icon: <CheckSquare size={24} />,
       title: "Validation",
       description: "Ensuring quality and compliance in regulated environments",
-      features: ["Asset Planning & Tracking", "Documentation Authoring", "Equipment Validation", "Training", "Onsite Support"]
+      features: ["Asset Planning & Tracking", "Documentation Authoring", "Equipment Validation", "Training", "Onsite Support"],
+      imageSrc: "public/lovable-uploads/6c73da78-a151-4b94-8946-1af8344f37fa.png"
     },
     {
       icon: <Building size={24} />,
       title: "BAS/BMS/EMS",
       description: "Building and energy management systems",
-      features: ["HVAC Design and Build", "Critical Environments", "Building Analytics", "Fault Detection", "Full Commissioning"]
+      features: ["HVAC Design and Build", "Critical Environments", "Building Analytics", "Fault Detection", "Full Commissioning"],
+      imageSrc: "public/lovable-uploads/6c73da78-a151-4b94-8946-1af8344f37fa.png"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
       <Hero3D />
       
       {/* What We Do Section */}
-      <section className="section-padding">
+      <section className="section-padding relative">
+        <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-background to-transparent z-10"></div>
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 relative z-20">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -108,6 +117,7 @@ const Index = () => {
                 title={service.title}
                 description={service.description}
                 features={service.features}
+                imageSrc={service.imageSrc}
               />
             ))}
           </div>
@@ -115,7 +125,7 @@ const Index = () => {
       </section>
       
       {/* Stats Section */}
-      <section className="py-16 bg-gradient-to-r from-jsblue to-jsblue/80 text-white">
+      <section className="py-16 bg-gradient-to-br from-jsblue via-jsblue/95 to-jsblue/90 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <motion.h2 
@@ -140,8 +150,11 @@ const Index = () => {
       </section>
       
       {/* How We Work Section */}
-      <section className="section-padding bg-gray-50 dark:bg-jsblue/10">
-        <div className="container mx-auto px-4">
+      <section className="section-padding bg-gray-50 dark:bg-jsblue/10 relative overflow-hidden">
+        <div className="absolute top-1/4 -left-20 w-80 h-80 bg-jspurple/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-jsaccent/10 rounded-full filter blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
@@ -276,11 +289,14 @@ const Index = () => {
       {/* Product Showcase */}
       <ProductShowcase />
       
+      {/* Locations Section */}
+      <Locations />
+      
       {/* Testimonials */}
       <TestimonialSlider />
       
       {/* Partner Section */}
-      <section className="section-padding bg-gradient-to-r from-jsblue to-jsblue/80 text-white">
+      <section className="section-padding bg-gradient-to-br from-jspurple/90 via-jspurple/80 to-jsaccent/80 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -308,7 +324,7 @@ const Index = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <button className="px-8 py-3 bg-white text-jsblue font-bold rounded-full hover:bg-gray-100 transition-colors">
+            <button className="px-8 py-3 bg-white text-jspurple font-bold rounded-full hover:bg-gray-100 transition-colors shadow-xl">
               Start a Conversation
             </button>
           </motion.div>

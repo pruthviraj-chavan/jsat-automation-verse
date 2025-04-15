@@ -62,19 +62,61 @@ const StatsCounter: React.FC<StatsCounterProps> = memo(({
     return () => cancelAnimationFrame(animationFrameId);
   }, [value, duration, isVisible]);
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5 }
+    },
+    hover: {
+      y: -5,
+      transition: { duration: 0.3 }
+    }
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
-      className="text-center p-6"
+      initial="hidden"
+      whileInView="visible"
+      whileHover="hover"
+      viewport={{ once: true, margin: "-50px" }}
+      variants={containerVariants}
+      className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/20 transition duration-300"
     >
-      <div className="text-4xl md:text-5xl font-bold text-jspurple mb-2">
-        <span ref={countRef}>{count}</span>{suffix}
-        <span className="text-jsaccent">+</span>
+      <div className="text-4xl md:text-5xl font-bold text-jspurple mb-2 flex items-center justify-center space-x-1">
+        <motion.span 
+          ref={countRef}
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {count}
+        </motion.span>
+        <motion.span
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          {suffix}
+        </motion.span>
+        <motion.span 
+          className="text-jsaccent"
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          +
+        </motion.span>
       </div>
-      <p className="text-gray-600 dark:text-gray-300">{label}</p>
+      <motion.p 
+        className="text-gray-600 dark:text-gray-300"
+        initial={{ y: 10, opacity: 0 }}
+        animate={isVisible ? { y: 0, opacity: 1 } : { y: 10, opacity: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
+        {label}
+      </motion.p>
     </motion.div>
   );
 });

@@ -55,7 +55,7 @@
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 262 83% 58%;
+    --primary: 262 83% 68%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -64,7 +64,7 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 199 94% 48%;
+    --accent: 199 94% 58%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -113,8 +113,12 @@
   @apply bg-gradient-to-r from-jspurple to-jsaccent bg-clip-text text-transparent;
 }
 
-.hero-gradient {
-  background: linear-gradient(to bottom right, rgba(26, 31, 44, 1), rgba(139, 92, 246, 0.2));
+.hero-light-gradient {
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.95), rgba(240, 245, 255, 0.98));
+}
+
+.hero-dark-gradient {
+  background: linear-gradient(to bottom right, rgba(26, 31, 44, 0.95), rgba(13, 16, 23, 0.98));
 }
 
 .section-padding {
@@ -133,4 +137,110 @@
 .floating-cube {
   animation: rotation 20s infinite linear;
   transform-style: preserve-3d;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.pulsing {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(-45deg, #8B5CF6, #0EA5E9, #1A1F2C, #A855F7);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* World map for locations */
+.world-map {
+  @apply relative bg-jsblue rounded-lg overflow-hidden;
+  background-image: url('/world-map-dots.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.location-pin {
+  @apply absolute w-3 h-3 rounded-full bg-jsaccent;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.location-pin:hover {
+  @apply bg-jspurple;
+  box-shadow: 0 0 0 5px rgba(139, 92, 246, 0.3);
+}
+
+.location-pin::after {
+  content: '';
+  @apply absolute w-16 h-16 rounded-full;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, rgba(14, 165, 233, 0) 70%);
+  animation: pulse 2s infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-jspurple/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-jspurple;
+}
+
+/* Responsive fixes */
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+  
+  h1, h2, h3 {
+    @apply text-center;
+  }
+  
+  .section-padding {
+    @apply py-10;
+  }
 }
