@@ -1,6 +1,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { memo } from "react";
 
 interface ServiceCardProps {
   icon: React.ReactNode;
@@ -10,7 +11,7 @@ interface ServiceCardProps {
   className?: string;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({
+const ServiceCard: React.FC<ServiceCardProps> = memo(({
   icon,
   title,
   description,
@@ -48,6 +49,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       </ul>
     </motion.div>
   );
-};
+});
+
+ServiceCard.displayName = "ServiceCard";
 
 export default ServiceCard;

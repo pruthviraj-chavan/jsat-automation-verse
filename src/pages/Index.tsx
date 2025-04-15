@@ -9,12 +9,29 @@ import TestimonialSlider from "@/components/TestimonialSlider";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 
-import { Terminal, Server, Database, FileText, Flask, CheckSquare, Building } from "lucide-react";
+import { Terminal, Server, Database, FileText, Beaker, CheckSquare, Building } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Index = () => {
   useEffect(() => {
     document.title = "JSat Automation - At The Heart Of Your Innovation";
+    // Add meta description for SEO
+    const metaDescription = document.createElement('meta');
+    metaDescription.name = 'description';
+    metaDescription.content = 'JSat Automation - Global technology company specializing in automation, IT/OT convergence, and compliance solutions for Industry 4.0 and beyond.';
+    document.head.appendChild(metaDescription);
+    
+    // Add keywords meta tag for SEO
+    const metaKeywords = document.createElement('meta');
+    metaKeywords.name = 'keywords';
+    metaKeywords.content = 'automation, process control, IT/OT convergence, MES, regulatory compliance, lab automation, validation, building automation systems, industrial automation';
+    document.head.appendChild(metaKeywords);
+    
+    return () => {
+      // Clean up meta tags on unmount
+      document.head.removeChild(metaDescription);
+      document.head.removeChild(metaKeywords);
+    };
   }, []);
 
   const services = [
@@ -43,7 +60,7 @@ const Index = () => {
       features: ["Regulatory Dossiers", "Regulatory Affairs Strategy", "Remediation Documents", "Merger & Acquisition Analysis", "QOS"]
     },
     {
-      icon: <Flask size={24} />,
+      icon: <Beaker size={24} />,
       title: "Lab Automation",
       description: "Advanced solutions for laboratory processes",
       features: ["Work-Cell Development", "EFMEA & Risk Management", "Custom Tools", "OTS Robotics", "Full Validation"]

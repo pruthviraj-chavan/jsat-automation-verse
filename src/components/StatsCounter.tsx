@@ -1,5 +1,5 @@
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, memo } from 'react';
 import { motion } from 'framer-motion';
 
 interface StatsCounterProps {
@@ -9,7 +9,7 @@ interface StatsCounterProps {
   duration?: number;
 }
 
-const StatsCounter: React.FC<StatsCounterProps> = ({ 
+const StatsCounter: React.FC<StatsCounterProps> = memo(({ 
   value, 
   label, 
   suffix = '', 
@@ -21,18 +21,20 @@ const StatsCounter: React.FC<StatsCounterProps> = ({
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    observerRef.current = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
       const [entry] = entries;
       setIsVisible(entry.isIntersecting);
     }, { threshold: 0.1 });
 
     if (countRef.current) {
-      observerRef.current.observe(countRef.current);
+      observer.observe(countRef.current);
     }
 
+    observerRef.current = observer;
+
     return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
+      if (observer) {
+        observer.disconnect();
       }
     };
   }, []);
@@ -42,18 +44,22 @@ const StatsCounter: React.FC<StatsCounterProps> = ({
 
     let start = 0;
     const increment = value / (duration / 16);
+    let animationFrameId: number;
     
-    const timer = setInterval(() => {
+    const animate = () => {
       start += increment;
       if (start > value) {
         setCount(value);
-        clearInterval(timer);
+        cancelAnimationFrame(animationFrameId);
       } else {
         setCount(Math.floor(start));
+        animationFrameId = requestAnimationFrame(animate);
       }
-    }, 16);
+    };
+    
+    animationFrameId = requestAnimationFrame(animate);
 
-    return () => clearInterval(timer);
+    return () => cancelAnimationFrame(animationFrameId);
   }, [value, duration, isVisible]);
 
   return (
@@ -71,6 +77,8 @@ const StatsCounter: React.FC<StatsCounterProps> = ({
       <p className="text-gray-600 dark:text-gray-300">{label}</p>
     </motion.div>
   );
-};
+});
+
+StatsCounter.displayName = "StatsCounter";
 
 export default StatsCounter;
