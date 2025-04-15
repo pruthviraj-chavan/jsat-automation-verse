@@ -1,81 +1,106 @@
 
 import { motion } from 'framer-motion';
-import { MapPin, Globe } from 'lucide-react';
+import { MapPin, Globe, Building } from 'lucide-react';
 import Image from './Image';
 
 interface LocationType {
   city: string;
   country: string;
-  address: string;
+  address: string[];
   coordinates: { x: number; y: number };
+  isHeadquarters?: boolean;
 }
 
 const Locations = () => {
+  const headquarters: LocationType = {
+    city: "Headquarters",
+    country: "USA",
+    address: [
+      "1730 Walton Road, Suite 100",
+      "Blue Bell, PA 19422, USA",
+      "Tel: +1 (267) 903 1800"
+    ],
+    coordinates: { x: 23, y: 37 },
+    isHeadquarters: true
+  };
+
   const locations: LocationType[] = [
     { 
       city: "Los Angeles", 
       country: "USA", 
-      address: "611 N Brand Blvd, Suite 1300, Glendale, CA 91203", 
+      address: ["611 N Brand Blvd, Suite 1300", "Glendale, CA 91203", "United States"], 
       coordinates: { x: 18, y: 38 } 
     },
     { 
       city: "San Francisco", 
       country: "USA", 
-      address: "1900 Powell Street, Suite 700, Emeryville, CA 94608", 
+      address: ["1900 Powell Street, Suite 700", "Emeryville, CA 94608", "United States"], 
       coordinates: { x: 16, y: 38 } 
     },
     { 
       city: "San Diego", 
       country: "USA", 
-      address: "770 First Ave, Suite 250, San Diego, CA 92101", 
+      address: ["770 First Ave, Suite 250", "San Diego, CA 92101", "United States"], 
       coordinates: { x: 17, y: 39 } 
     },
     { 
       city: "Boston", 
       country: "USA", 
-      address: "300 Baker Ave, Suite 300a, Concord, MA 01742", 
+      address: ["300 Baker Ave, Suite 300a", "Concord, MA 01742", "United States"], 
       coordinates: { x: 25, y: 35 } 
     },
     { 
       city: "Chicago", 
       country: "USA", 
-      address: "544 Lakeview Parkway, Suite 100, Vernon Hills, IL 60061", 
+      address: ["544 Lakeview Parkway, Suite 100", "Vernon Hills, IL 60061", "United States"], 
       coordinates: { x: 23, y: 35 } 
     },
     { 
-      city: "India", 
-      country: "Pune", 
-      address: "Shrirang House, 35A/355/1 Shivaji Nagar, J.M. Road, Pune, India 411005", 
+      city: "Pune", 
+      country: "India", 
+      address: ["Shrirang House, 364/365/1", "Shivaji Nagar, J.M. Road", "Pune, India 411005"], 
       coordinates: { x: 65, y: 45 } 
     },
     { 
       city: "Singapore", 
       country: "Singapore", 
-      address: "50 Havelock Road, Suite 02-767, The Beo Crescent, 160050 Singapore", 
+      address: ["50 Havelock Road, Suite 02-767", "The Beo Crescent, 160050", "Singapore"], 
       coordinates: { x: 77, y: 55 } 
     },
     { 
-      city: "Netherlands", 
+      city: "Leiden", 
       country: "Netherlands", 
-      address: "Kanaalpark 140, 2321 JV Leiden, Netherlands", 
+      address: ["Kanaalpark 140", "2321 JV Leiden", "Netherlands"], 
       coordinates: { x: 48, y: 32 } 
     },
     { 
-      city: "Romania", 
+      city: "Cluj-Napoca", 
       country: "Romania", 
-      address: "Alexandru Vaida Voevod Street 53B, United Business Center Iulius, 6th Floor, Cluj-Napoca 400436, Romania", 
+      address: [
+        "Alexandru Vaida Voevod Street 53B", 
+        "United Business Center Iulius, 6th Floor", 
+        "Cluj-Napoca 400436, Romania"
+      ], 
       coordinates: { x: 52, y: 33 } 
     },
     { 
-      city: "Costa Rica", 
+      city: "San Jose", 
       country: "Costa Rica", 
-      address: "Escazu Corporate Center (6th Floor), San Rafael de Escazu, San Jose 10203, Costa Rica", 
+      address: [
+        "Escazu Corporate Center (6th Floor)", 
+        "San Rafael de Escazu, San Jose 10203", 
+        "Costa Rica"
+      ], 
       coordinates: { x: 25, y: 48 } 
     },
     { 
-      city: "United Kingdom", 
-      country: "UK", 
-      address: "960 Capability Green, Luton Bedfordshire, LU1 3PE, United Kingdom", 
+      city: "Luton", 
+      country: "United Kingdom", 
+      address: [
+        "960 Capability Green", 
+        "Luton Bedfordshire LU1 3PE", 
+        "United Kingdom"
+      ], 
       coordinates: { x: 47, y: 32 } 
     },
   ];
@@ -130,7 +155,7 @@ const Locations = () => {
             className="text-lg text-gray-300 max-w-2xl mx-auto"
             variants={itemVariants}
           >
-            With over 10 strategic locations across the globe, we provide local expertise with global capabilities
+            With strategic locations across the globe, we provide local expertise with global capabilities
           </motion.p>
         </motion.div>
 
@@ -156,7 +181,7 @@ const Locations = () => {
                   }
                 }}
                 style={{
-                  background: `url('public/lovable-uploads/322da8bf-92a9-4384-9e2b-19943b554345.png')`,
+                  background: `url(public/lovable-uploads/1ef31024-8a26-4abf-a42c-f64ed5d03f2a.png)`,
                   backgroundSize: '200% 100%',
                   backgroundPosition: '0% 0%',
                   filter: 'brightness(0.7) saturate(1.5)',
@@ -193,7 +218,7 @@ const Locations = () => {
               }}
             >
               <Image 
-                src="public/lovable-uploads/322da8bf-92a9-4384-9e2b-19943b554345.png"
+                src="public/lovable-uploads/1ef31024-8a26-4abf-a42c-f64ed5d03f2a.png"
                 alt="World Map"
                 layout="fill"
                 objectFit="cover"
@@ -209,21 +234,37 @@ const Locations = () => {
                   </linearGradient>
                 </defs>
                 
+                {/* Connect headquarters to all locations */}
+                {locations.map((location, i) => (
+                  <motion.path
+                    key={`hq-line-${i}`}
+                    d={`M${headquarters.coordinates.x}% ${headquarters.coordinates.y}% Q${(headquarters.coordinates.x + location.coordinates.x) / 2}% 
+                       ${Math.min(headquarters.coordinates.y, location.coordinates.y) - 10}%, ${location.coordinates.x}% ${location.coordinates.y}%`}
+                    stroke="url(#lineGradient)"
+                    strokeWidth="1"
+                    fill="none"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{ duration: 2, delay: 1 + (i * 0.1) }}
+                  />
+                ))}
+                
+                {/* Connect some locations to each other for network effect */}
                 {locations.map((location, i) => 
                   locations.slice(i + 1).map((target, j) => {
                     // Only draw some connections to avoid clutter
-                    if ((i + j) % 3 === 0) {
+                    if ((i + j) % 4 === 0) {
                       return (
                         <motion.path
                           key={`line-${i}-${j}`}
                           d={`M${location.coordinates.x}% ${location.coordinates.y}% Q${(location.coordinates.x + target.coordinates.x) / 2}% 
-                             ${Math.min(location.coordinates.y, target.coordinates.y) - 20}%, ${target.coordinates.x}% ${target.coordinates.y}%`}
+                             ${Math.min(location.coordinates.y, target.coordinates.y) - 15}%, ${target.coordinates.x}% ${target.coordinates.y}%`}
                           stroke="url(#lineGradient)"
                           strokeWidth="1"
                           fill="none"
                           initial={{ pathLength: 0, opacity: 0 }}
                           animate={{ pathLength: 1, opacity: 1 }}
-                          transition={{ duration: 2, delay: 1 + (i * 0.2) }}
+                          transition={{ duration: 2, delay: 1.5 + (i * 0.1) }}
                         />
                       );
                     }
@@ -231,6 +272,66 @@ const Locations = () => {
                   })
                 )}
               </svg>
+
+              {/* Headquarters Pin with special styling */}
+              <div
+                className="location-pin-container absolute"
+                style={{ 
+                  left: `${headquarters.coordinates.x}%`, 
+                  top: `${headquarters.coordinates.y}%`,
+                  zIndex: 10
+                }}
+              >
+                {/* Large outer pulse for headquarters */}
+                <motion.div
+                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-jspurple/20"
+                  initial={{ width: 0, height: 0, opacity: 0 }}
+                  animate={{ 
+                    width: ['30px', '80px'], 
+                    height: ['30px', '80px'],
+                    opacity: [0.8, 0]
+                  }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    duration: 2.5,
+                    ease: "easeOut"
+                  }}
+                />
+                
+                {/* The headquarters pin */}
+                <motion.div
+                  className="absolute -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-jspurple shadow-[0_0_15px_rgba(139,92,246,0.8)]"
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.5 }}
+                >
+                  <motion.div
+                    className="absolute inset-1 rounded-full bg-white"
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 2,
+                      ease: "easeInOut"
+                    }}
+                  />
+                </motion.div>
+                
+                {/* Headquarters label */}
+                <motion.div 
+                  className="absolute -top-12 left-1/2 -translate-x-1/2 bg-jspurple/90 px-3 py-1.5 rounded-full text-white text-xs whitespace-nowrap border border-jspurple/50 shadow-lg"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="flex items-center gap-1">
+                    <Building size={12} />
+                    <span className="font-bold">Headquarters</span>
+                  </div>
+                </motion.div>
+              </div>
 
               {/* Location Pins with advanced animations */}
               {locations.map((location, index) => (
@@ -294,18 +395,18 @@ const Locations = () => {
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {location.city}
+                    {location.city}, {location.country}
                   </motion.div>
                 </div>
               ))}
               
               {/* Adding data flow animations */}
-              {Array.from({ length: 10 }).map((_, index) => (
+              {Array.from({ length: 15 }).map((_, index) => (
                 <motion.div
                   key={`data-flow-${index}`}
                   className="absolute w-1 h-1 rounded-full bg-jsaccent/80 shadow-[0_0_5px_rgba(14,165,233,0.8)]"
                   initial={{ 
-                    top: `${30 + Math.random() * 40}%`, 
+                    top: `${20 + Math.random() * 60}%`, 
                     left: 0,
                     opacity: 0.8,
                     scale: 0.5
@@ -324,6 +425,31 @@ const Locations = () => {
                 />
               ))}
             </motion.div>
+          </motion.div>
+
+          {/* Headquarters Section */}
+          <motion.div 
+            className="mb-10 p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex items-start gap-4">
+              <div className="bg-jspurple/20 p-3 rounded-full flex-shrink-0 mt-1">
+                <Building className="text-jspurple h-6 w-6" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white">Headquarters</h3>
+                <p className="text-gray-300 mb-2">{headquarters.address.join(", ")}</p>
+                <a 
+                  href={`tel:${headquarters.address[2].split(": ")[1]}`} 
+                  className="text-jsaccent hover:underline inline-flex items-center"
+                >
+                  {headquarters.address[2]}
+                </a>
+              </div>
+            </div>
           </motion.div>
 
           {/* Location Grid */}
@@ -346,8 +472,8 @@ const Locations = () => {
                     <MapPin className="text-jsaccent h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white">{location.city}</h3>
-                    <p className="text-xs text-gray-400">{location.address}</p>
+                    <h3 className="font-bold text-white">{location.city}, {location.country}</h3>
+                    <p className="text-xs text-gray-400">{location.address.join(", ")}</p>
                   </div>
                 </div>
               </motion.div>

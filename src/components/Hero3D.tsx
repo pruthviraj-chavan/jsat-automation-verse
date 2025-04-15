@@ -9,6 +9,7 @@ const Hero3D = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { resolvedTheme } = useTheme();
   const isDarkMode = resolvedTheme === 'dark';
+  const floatingObjectsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -166,13 +167,79 @@ const Hero3D = () => {
     }
   }, [isDarkMode]);
 
+  // Parallax effect for floating 3D elements
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!floatingObjectsRef.current) return;
+      
+      const x = e.clientX / window.innerWidth - 0.5;
+      const y = e.clientY / window.innerHeight - 0.5;
+      
+      floatingObjectsRef.current.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
   return (
     <div className={`relative w-full h-screen overflow-hidden ${isDarkMode ? 'hero-dark-gradient' : 'hero-light-gradient'}`}>
       {/* 3D Canvas */}
       <canvas 
         ref={canvasRef} 
-        className="absolute inset-0 w-full h-full z-0"
+        className="absolute inset-0 w-full h-full z-0 md:block hidden"
       />
+      
+      {/* Floating 3D objects for mobile view where Three.js might not work well */}
+      <div 
+        ref={floatingObjectsRef}
+        className="absolute right-5 top-1/3 z-10 md:hidden"
+      >
+        <div className="relative w-64 h-64">
+          <motion.div 
+            className="absolute w-12 h-12 bg-jspurple rounded-lg"
+            animate={{
+              rotate: 360,
+              x: [0, 20, 0],
+              y: [0, -20, 0],
+            }}
+            transition={{ 
+              rotate: { duration: 10, repeat: Infinity, ease: "linear" },
+              x: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+              y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+            }}
+          />
+          <motion.div 
+            className="absolute w-12 h-12 bg-jsaccent rounded-full"
+            style={{ left: '60%', top: '20%' }}
+            animate={{
+              rotate: -360,
+              x: [0, -20, 0],
+              y: [0, 20, 0],
+            }}
+            transition={{ 
+              rotate: { duration: 8, repeat: Infinity, ease: "linear" },
+              x: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+              y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+            }}
+          />
+          <motion.div 
+            className="absolute w-14 h-14 border-2 border-white dark:border-gray-300 rounded-full"
+            style={{ left: '30%', top: '60%' }}
+            animate={{
+              rotate: 180,
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ 
+              rotate: { duration: 12, repeat: Infinity, ease: "linear" },
+              scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+            }}
+          />
+        </div>
+      </div>
       
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 z-10 grid-pattern opacity-40"></div>
