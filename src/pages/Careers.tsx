@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -615,7 +614,6 @@ const Careers = () => {
                           : 'border-gray-200 dark:border-gray-800'
                       } shadow-sm hover:shadow-md transition-all cursor-pointer`}
                       onClick={() => setSelectedJob(job)}
-                      variants={itemVariants}
                     >
                       <div className="flex justify-between items-start">
                         <h3 className="font-semibold">{job.title}</h3>
@@ -704,75 +702,4 @@ const Careers = () => {
                       {selectedJob.requirements && (
                         <>
                           <h4 className="font-semibold mb-2">Requirements:</h4>
-                          <ul className="list-disc pl-5 text-gray-600 dark:text-gray-300 space-y-1">
-                            {selectedJob.requirements.map((item, index) => (
-                              <li key={index}>{item}</li>
-                            ))}
-                          </ul>
-                        </>
-                      )}
-                    </div>
-                    
-                    <Button 
-                      className="w-full md:w-auto bg-jspurple hover:bg-jspurple/90"
-                      onClick={() => handleApply(selectedJob)}
-                    >
-                      Apply for this Position
-                    </Button>
-                  </>
-                ) : (
-                  <div className="h-64 flex flex-col items-center justify-center text-center p-6 text-gray-500 dark:text-gray-400">
-                    <Briefcase size={48} className="mb-4 opacity-20" />
-                    <h3 className="text-lg font-semibold mb-2">Job Details</h3>
-                    <p>Select a job from the list to view details</p>
-                  </div>
-                )}
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Talent Community Section */}
-      <section className="py-16 bg-gradient-to-br from-jspurple via-jspurple/90 to-jsaccent/90 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            Join Our Talent Community
-          </motion.h2>
-          
-          <motion.p 
-            className="text-xl max-w-3xl mx-auto mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            Don't see the right opportunity? Join our talent community to stay updated on future openings and events.
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <Button size="lg" variant="outline" className="bg-white text-jspurple hover:bg-gray-100 border-0">
-              Sign Up for Job Alerts
-            </Button>
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* Footer */}
-      <Footer />
-    </div>
-  );
-};
-
-export default Careers;
+                          <ul className="list-disc pl-5 text-gray-600 dark:text-gray-
