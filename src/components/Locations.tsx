@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { MapPin, Globe, Building } from 'lucide-react';
 
@@ -229,8 +228,20 @@ const Locations = () => {
                       y: Math.sin(angle) * 150 - 8,
                     }}
                     animate={{
-                      x: (t) => Math.cos(t * 2 * Math.PI + angle) * 150 - 8,
-                      y: (t) => Math.sin(t * 2 * Math.PI + angle) * 150 - 8,
+                      x: [
+                        Math.cos(0 * 2 * Math.PI + angle) * 150 - 8,
+                        Math.cos(0.25 * 2 * Math.PI + angle) * 150 - 8,
+                        Math.cos(0.5 * 2 * Math.PI + angle) * 150 - 8,
+                        Math.cos(0.75 * 2 * Math.PI + angle) * 150 - 8,
+                        Math.cos(1 * 2 * Math.PI + angle) * 150 - 8,
+                      ],
+                      y: [
+                        Math.sin(0 * 2 * Math.PI + angle) * 150 - 8,
+                        Math.sin(0.25 * 2 * Math.PI + angle) * 150 - 8,
+                        Math.sin(0.5 * 2 * Math.PI + angle) * 150 - 8,
+                        Math.sin(0.75 * 2 * Math.PI + angle) * 150 - 8,
+                        Math.sin(1 * 2 * Math.PI + angle) * 150 - 8,
+                      ],
                       scale: [1, 1.5, 1],
                       opacity: [0.7, 1, 0.7]
                     }}

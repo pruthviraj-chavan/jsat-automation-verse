@@ -8,7 +8,7 @@ const JSatOne = () => {
   useEffect(() => {
     // Redirect to JSatOne website
     window.location.href = "https://www.jsatone.com/";
-  }, [navigate]);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-jspurple/10 to-jsaccent/10">
