@@ -187,16 +187,16 @@ const Hero3D = () => {
 
   return (
     <div className={`relative w-full h-screen overflow-hidden ${isDarkMode ? 'hero-dark-gradient' : 'hero-light-gradient'}`}>
-      {/* 3D Canvas */}
+      {/* 3D Canvas - now shown on all devices */}
       <canvas 
         ref={canvasRef} 
-        className="absolute inset-0 w-full h-full z-0 md:block hidden"
+        className="absolute inset-0 w-full h-full z-0"
       />
       
-      {/* Floating 3D objects for mobile view where Three.js might not work well */}
+      {/* Floating 3D objects - visible on all devices as fallback */}
       <div 
         ref={floatingObjectsRef}
-        className="absolute right-5 top-1/3 z-10 md:hidden"
+        className="absolute right-5 top-1/3 z-10"
       >
         <div className="relative w-64 h-64">
           <motion.div 

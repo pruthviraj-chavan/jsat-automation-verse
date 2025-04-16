@@ -67,28 +67,28 @@ const ProductShowcase = () => {
   };
 
   return (
-    <section className="section-padding bg-gradient-to-br from-jspurple/20 via-jsblue/30 to-jsaccent/20 dark:from-jspurple/10 dark:via-jsblue/20 dark:to-jsaccent/10 overflow-hidden relative">
+    <section className="section-padding bg-gradient-to-br from-jspurple/30 via-jsblue/40 to-jsaccent/30 dark:from-jspurple/20 dark:via-jsblue/30 dark:to-jsaccent/20 overflow-hidden relative">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-jspurple/20 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-10 right-10 w-32 h-32 bg-jsaccent/20 rounded-full filter blur-3xl"></div>
-        <div className="absolute top-1/4 right-1/3 w-40 h-40 bg-jsblue/10 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-10 left-10 w-40 h-40 bg-jspurple/30 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-40 h-40 bg-jsaccent/30 rounded-full filter blur-3xl"></div>
+        <div className="absolute top-1/4 right-1/3 w-40 h-40 bg-jsblue/20 rounded-full filter blur-3xl"></div>
         
         {/* Grid overlay */}
         <div className="absolute inset-0 grid-pattern opacity-20"></div>
         
         {/* Particles */}
-        {Array.from({ length: 15 }).map((_, index) => (
+        {Array.from({ length: 20 }).map((_, index) => (
           <motion.div
             key={index}
-            className="absolute w-2 h-2 rounded-full bg-jsaccent/30"
+            className="absolute w-2 h-2 rounded-full bg-jsaccent/50"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
             }}
             animate={{
               y: [0, 30, 0],
-              opacity: [0.2, 0.5, 0.2],
+              opacity: [0.2, 0.8, 0.2],
             }}
             transition={{
               duration: 3 + Math.random() * 5,
@@ -121,7 +121,7 @@ const ProductShowcase = () => {
             JSatOne
           </motion.div>
           <motion.p 
-            className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+            className="text-lg text-gray-600 dark:text-gray-200 max-w-2xl mx-auto"
             variants={itemVariants}
           >
             An Omni Connected Software Platform Trusted By Industry Leaders
@@ -130,13 +130,13 @@ const ProductShowcase = () => {
             className="flex flex-wrap justify-center mt-6 gap-4"
             variants={itemVariants}
           >
-            <span className="inline-flex items-center rounded-full bg-purple-100 dark:bg-purple-900/30 px-4 py-1 text-sm font-medium text-jspurple">
+            <span className="inline-flex items-center rounded-full bg-purple-100 dark:bg-purple-900/50 px-4 py-1 text-sm font-medium text-jspurple dark:text-purple-300">
               <Shield className="mr-1 h-4 w-4" /> GxP Friendly
             </span>
-            <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-4 py-1 text-sm font-medium text-jsaccent">
+            <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/50 px-4 py-1 text-sm font-medium text-jsaccent dark:text-blue-300">
               <Zap className="mr-1 h-4 w-4" /> Customizable
             </span>
-            <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/30 px-4 py-1 text-sm font-medium text-green-600 dark:text-green-400">
+            <span className="inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/50 px-4 py-1 text-sm font-medium text-green-600 dark:text-green-300">
               <Cloud className="mr-1 h-4 w-4" /> Cloud/Hybrid Hosted
             </span>
           </motion.div>
@@ -152,7 +152,7 @@ const ProductShowcase = () => {
           >
             <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Traditional Ownership vs JSatOne Advantage</h3>
             
-            <div className="bg-white dark:bg-jsblue/20 rounded-xl shadow-lg overflow-hidden backdrop-blur-md border border-gray-200 dark:border-white/10">
+            <div className="bg-white/80 dark:bg-jsblue/40 rounded-xl shadow-lg overflow-hidden backdrop-blur-md border border-gray-200 dark:border-white/10">
               {advantages.map((item, index) => (
                 <motion.div 
                   key={index} 
@@ -164,11 +164,11 @@ const ProductShowcase = () => {
                 >
                   <div className="p-4 flex items-center space-x-2 border-r border-gray-200 dark:border-gray-700">
                     <X className="h-5 w-5 text-red-500 flex-shrink-0" />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{item.traditional}</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-200">{item.traditional}</span>
                   </div>
                   <div className="p-4 flex items-center space-x-2">
                     <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{item.jsatOne}</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-200">{item.jsatOne}</span>
                   </div>
                 </motion.div>
               ))}
@@ -199,7 +199,7 @@ const ProductShowcase = () => {
             <div className="relative h-[550px] md:h-[600px] flex items-center justify-center">
               {/* Main circular backdrop */}
               <motion.div 
-                className="absolute w-[90%] h-[90%] rounded-full bg-gradient-to-br from-jspurple/20 to-jsaccent/20 dark:from-jspurple/10 dark:to-jsaccent/10 backdrop-blur-sm"
+                className="absolute w-[90%] h-[90%] rounded-full bg-gradient-to-br from-jspurple/30 to-jsaccent/30 dark:from-jspurple/20 dark:to-jsaccent/20 backdrop-blur-sm"
                 animate={{ 
                   rotate: 360,
                 }}
@@ -217,7 +217,7 @@ const ProductShowcase = () => {
                 animate="float"
               >
                 <div className="relative w-full h-full rounded-2xl">
-                  <div className="absolute inset-0 bg-gradient-to-br from-jspurple/40 to-jsaccent/40 backdrop-blur-md rounded-xl shadow-2xl border border-white/20"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-jspurple/60 to-jsaccent/60 backdrop-blur-md rounded-xl shadow-2xl border border-white/20"></div>
                   
                   <div className="absolute inset-0 p-6 overflow-hidden">
                     <div className="text-xl md:text-2xl font-bold mb-4 text-white text-center">JSatOne Modules</div>
@@ -226,7 +226,7 @@ const ProductShowcase = () => {
                       {modules.map((module, index) => (
                         <motion.div 
                           key={index} 
-                          className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-sm border border-white/10 text-white"
+                          className="bg-white/10 backdrop-blur-sm rounded-lg p-3 text-sm md:text-base border border-white/10 text-white"
                           initial={{ opacity: 0, y: 20 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.2)" }}
@@ -249,7 +249,7 @@ const ProductShowcase = () => {
 
               {/* Device mockups */}
               <motion.div 
-                className="absolute top-[5%] right-[15%] w-40 h-60 md:w-48 md:h-72 bg-black rounded-3xl overflow-hidden shadow-2xl"
+                className="absolute top-[5%] right-[15%] w-32 h-48 md:w-48 md:h-72 bg-black rounded-3xl overflow-hidden shadow-2xl"
                 initial={{ opacity: 0, x: 50, y: 50 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.3 }}
@@ -264,12 +264,13 @@ const ProductShowcase = () => {
                   alt="JSatOne Mobile App" 
                   layout="fill" 
                   objectFit="cover"
+                  priority={true}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
               </motion.div>
               
               <motion.div 
-                className="absolute bottom-[10%] left-[10%] w-60 h-40 md:w-72 md:h-48 bg-black rounded-lg overflow-hidden shadow-2xl"
+                className="absolute bottom-[10%] left-[10%] w-48 h-32 md:w-72 md:h-48 bg-black rounded-lg overflow-hidden shadow-2xl"
                 initial={{ opacity: 0, x: -50, y: 50 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.4 }}
@@ -284,6 +285,7 @@ const ProductShowcase = () => {
                   alt="JSatOne Dashboard" 
                   layout="fill" 
                   objectFit="cover"
+                  priority={true}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
               </motion.div>
@@ -292,7 +294,7 @@ const ProductShowcase = () => {
               {[1, 2, 3, 4].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute w-8 h-8 rounded-full bg-gradient-to-r from-jspurple to-jsaccent/50 flex items-center justify-center"
+                  className="absolute w-8 h-8 rounded-full bg-gradient-to-r from-jspurple to-jsaccent/80 flex items-center justify-center shadow-lg shadow-jsaccent/30"
                   style={{
                     // Position at different angles around the circle
                     left: `calc(50% + ${Math.cos(i * Math.PI / 2) * 40}%)`,

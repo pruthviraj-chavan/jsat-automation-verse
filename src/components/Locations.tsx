@@ -1,7 +1,6 @@
 
 import { motion } from 'framer-motion';
 import { MapPin, Globe, Building } from 'lucide-react';
-import Image from './Image';
 
 interface LocationType {
   city: string;
@@ -125,9 +124,6 @@ const Locations = () => {
     }
   };
 
-  // Generate random pulse delays for location pins
-  const getRandomDelay = () => Math.random() * 2;
-
   return (
     <section className="section-padding bg-gradient-to-br from-jsblue via-jsblue/95 to-jsblue/90 text-white overflow-hidden">
       <div className="container mx-auto px-4">
@@ -152,7 +148,7 @@ const Locations = () => {
             <span className="text-xl text-jsaccent">Serving Clients Worldwide</span>
           </motion.div>
           <motion.p 
-            className="text-lg text-gray-300 max-w-2xl mx-auto"
+            className="text-lg text-white max-w-2xl mx-auto"
             variants={itemVariants}
           >
             With strategic locations across the globe, we provide local expertise with global capabilities
@@ -160,271 +156,143 @@ const Locations = () => {
         </motion.div>
 
         <div className="relative">
-          {/* World Map */}
+          {/* Animated Earth Globe */}
           <motion.div 
-            className="world-map h-[500px] md:h-[600px] mb-10 rounded-xl overflow-hidden relative"
+            className="earth-animation h-[400px] md:h-[500px] mb-16 rounded-xl overflow-hidden relative flex items-center justify-center"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 1 }}
             viewport={{ once: true }}
           >
-            {/* Earth Background with Glow */}
-            <div className="absolute inset-0 bg-jsblue/80 rounded-xl overflow-hidden">
+            {/* 3D Earth Animation using CSS */}
+            <div className="relative w-[280px] h-[280px] md:w-[400px] md:h-[400px]">
+              {/* Earth sphere */}
               <motion.div
-                className="absolute w-full h-full"
+                className="absolute inset-0 bg-blue-900 rounded-full overflow-hidden shadow-[0_0_120px_rgba(14,165,233,0.4)]"
                 animate={{
-                  backgroundPosition: ['0% 0%', '100% 0%'],
-                  transition: {
-                    duration: 60,
-                    ease: "linear",
+                  rotateY: 360,
+                  rotateX: [5, -5, 5],
+                }}
+                transition={{
+                  rotateY: {
+                    duration: 30,
                     repeat: Infinity,
+                    ease: "linear"
+                  },
+                  rotateX: {
+                    duration: 15,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    repeatType: "reverse"
                   }
                 }}
                 style={{
-                  background: `url(public/lovable-uploads/1ef31024-8a26-4abf-a42c-f64ed5d03f2a.png)`,
-                  backgroundSize: '200% 100%',
-                  backgroundPosition: '0% 0%',
-                  filter: 'brightness(0.7) saturate(1.5)',
+                  backgroundImage: `radial-gradient(circle at 30% 30%, rgba(14, 165, 233, 0.6), rgba(14, 14, 60, 1))`,
+                  backgroundSize: "cover",
+                  transform: "rotateX(10deg)",
+                  transformStyle: "preserve-3d"
                 }}
               >
-                {/* Pulsing glow overlay */}
-                <motion.div 
-                  className="absolute inset-0 bg-jsaccent/10"
+                {/* Land patterns */}
+                <motion.div
+                  className="absolute inset-0"
                   animate={{
-                    opacity: [0.1, 0.3, 0.1],
+                    backgroundPosition: ["0% 0%", "100% 0%"]
                   }}
                   transition={{
-                    duration: 8,
-                    ease: "easeInOut",
+                    duration: 30,
                     repeat: Infinity,
-                  }}
-                />
-              </motion.div>
-            </div>
-
-            {/* World Map with Moving Effect */}
-            <motion.div
-              className="absolute inset-0"
-              animate={{
-                y: [-10, 0, -10],
-                rotateZ: [0, 2, 0], 
-                rotateX: [0, 5, 0],
-                rotateY: [0, 3, 0]
-              }}
-              transition={{
-                repeat: Infinity,
-                duration: 20,
-                ease: "easeInOut"
-              }}
-            >
-              <Image 
-                src="public/lovable-uploads/1ef31024-8a26-4abf-a42c-f64ed5d03f2a.png"
-                alt="World Map"
-                layout="fill"
-                objectFit="cover"
-                className="opacity-70"
-              />
-              
-              {/* Connection lines between locations */}
-              <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
-                <defs>
-                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#0EA5E9" stopOpacity="0.3" />
-                  </linearGradient>
-                </defs>
-                
-                {/* Connect headquarters to all locations */}
-                {locations.map((location, i) => (
-                  <motion.path
-                    key={`hq-line-${i}`}
-                    d={`M${headquarters.coordinates.x}% ${headquarters.coordinates.y}% Q${(headquarters.coordinates.x + location.coordinates.x) / 2}% 
-                       ${Math.min(headquarters.coordinates.y, location.coordinates.y) - 10}%, ${location.coordinates.x}% ${location.coordinates.y}%`}
-                    stroke="url(#lineGradient)"
-                    strokeWidth="1"
-                    fill="none"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 2, delay: 1 + (i * 0.1) }}
-                  />
-                ))}
-                
-                {/* Connect some locations to each other for network effect */}
-                {locations.map((location, i) => 
-                  locations.slice(i + 1).map((target, j) => {
-                    // Only draw some connections to avoid clutter
-                    if ((i + j) % 4 === 0) {
-                      return (
-                        <motion.path
-                          key={`line-${i}-${j}`}
-                          d={`M${location.coordinates.x}% ${location.coordinates.y}% Q${(location.coordinates.x + target.coordinates.x) / 2}% 
-                             ${Math.min(location.coordinates.y, target.coordinates.y) - 15}%, ${target.coordinates.x}% ${target.coordinates.y}%`}
-                          stroke="url(#lineGradient)"
-                          strokeWidth="1"
-                          fill="none"
-                          initial={{ pathLength: 0, opacity: 0 }}
-                          animate={{ pathLength: 1, opacity: 1 }}
-                          transition={{ duration: 2, delay: 1.5 + (i * 0.1) }}
-                        />
-                      );
-                    }
-                    return null;
-                  })
-                )}
-              </svg>
-
-              {/* Headquarters Pin with special styling */}
-              <div
-                className="location-pin-container absolute"
-                style={{ 
-                  left: `${headquarters.coordinates.x}%`, 
-                  top: `${headquarters.coordinates.y}%`,
-                  zIndex: 10
-                }}
-              >
-                {/* Large outer pulse for headquarters */}
-                <motion.div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-jspurple/20"
-                  initial={{ width: 0, height: 0, opacity: 0 }}
-                  animate={{ 
-                    width: ['30px', '80px'], 
-                    height: ['30px', '80px'],
-                    opacity: [0.8, 0]
-                  }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    duration: 2.5,
-                    ease: "easeOut"
-                  }}
-                />
-                
-                {/* The headquarters pin */}
-                <motion.div
-                  className="absolute -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-jspurple shadow-[0_0_15px_rgba(139,92,246,0.8)]"
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.5 }}
-                >
-                  <motion.div
-                    className="absolute inset-1 rounded-full bg-white"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2,
-                      ease: "easeInOut"
-                    }}
-                  />
-                </motion.div>
-                
-                {/* Headquarters label */}
-                <motion.div 
-                  className="absolute -top-12 left-1/2 -translate-x-1/2 bg-jspurple/90 px-3 py-1.5 rounded-full text-white text-xs whitespace-nowrap border border-jspurple/50 shadow-lg"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.5 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="flex items-center gap-1">
-                    <Building size={12} />
-                    <span className="font-bold">Headquarters</span>
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Location Pins with advanced animations */}
-              {locations.map((location, index) => (
-                <div
-                  key={index}
-                  className="location-pin-container absolute"
-                  style={{ 
-                    left: `${location.coordinates.x}%`, 
-                    top: `${location.coordinates.y}%`,
-                    zIndex: 5
-                  }}
-                >
-                  {/* Large outer pulse */}
-                  <motion.div
-                    className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-jsaccent/10"
-                    initial={{ width: 0, height: 0, opacity: 0 }}
-                    animate={{ 
-                      width: ['20px', '60px'], 
-                      height: ['20px', '60px'],
-                      opacity: [0.6, 0]
-                    }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 3,
-                      delay: getRandomDelay(),
-                      ease: "easeOut"
-                    }}
-                  />
-                  
-                  {/* Medium pulse */}
-                  <motion.div
-                    className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-jsaccent/20"
-                    initial={{ width: 0, height: 0, opacity: 0 }}
-                    animate={{ 
-                      width: ['10px', '40px'], 
-                      height: ['10px', '40px'],
-                      opacity: [0.8, 0]
-                    }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2.5,
-                      delay: getRandomDelay(),
-                      ease: "easeOut"
-                    }}
-                  />
-                  
-                  {/* The pin itself */}
-                  <motion.div
-                    className="absolute -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-jsaccent shadow-[0_0_10px_rgba(14,165,233,0.7)]"
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.5 + index * 0.1, duration: 0.3 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.5, backgroundColor: '#8B5CF6' }}
-                  />
-                  
-                  {/* City name */}
-                  <motion.div 
-                    className="absolute -top-10 left-1/2 -translate-x-1/2 bg-jsblue/90 px-3 py-1 rounded-lg text-white text-xs whitespace-nowrap opacity-0 pointer-events-none border border-jsaccent/30 shadow-lg"
-                    animate={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {location.city}, {location.country}
-                  </motion.div>
-                </div>
-              ))}
-              
-              {/* Adding data flow animations */}
-              {Array.from({ length: 15 }).map((_, index) => (
-                <motion.div
-                  key={`data-flow-${index}`}
-                  className="absolute w-1 h-1 rounded-full bg-jsaccent/80 shadow-[0_0_5px_rgba(14,165,233,0.8)]"
-                  initial={{ 
-                    top: `${20 + Math.random() * 60}%`, 
-                    left: 0,
-                    opacity: 0.8,
-                    scale: 0.5
-                  }}
-                  animate={{ 
-                    left: ['0%', '100%'],
-                    opacity: [0, 1, 0],
-                    scale: [0.5, 1.5, 0.5]
-                  }}
-                  transition={{ 
-                    duration: 5 + Math.random() * 10, 
-                    repeat: Infinity,
-                    delay: Math.random() * 5,
                     ease: "linear"
                   }}
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='800' height='400' viewBox='0 0 800 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M150 0 L75 200 L225 200 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M350 50 L300 150 L400 150 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M450 100 L400 200 L500 200 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M550 0 L500 100 L600 100 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M650 50 L600 150 L700 150 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M750 100 L700 200 L800 200 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M150 200 L75 400 L225 400 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M350 250 L300 350 L400 350 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M450 300 L400 400 L500 400 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M550 200 L500 300 L600 300 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M650 250 L600 350 L700 350 Z'/%3E%3Cpath fill='%238B5CF6' fill-opacity='0.4' d='M750 300 L700 400 L800 400 Z'/%3E%3C/svg%3E")`,
+                    backgroundSize: "cover",
+                    opacity: 0.8
+                  }}
                 />
-              ))}
-            </motion.div>
+                
+                {/* Glowing atmosphere */}
+                <div className="absolute inset-[-30px] rounded-full bg-jsaccent/5 blur-xl"></div>
+                <div className="absolute inset-[-15px] rounded-full bg-jsaccent/10 blur-md"></div>
+              </motion.div>
+              
+              {/* Orbiting satellites/elements */}
+              {[...Array(4)].map((_, index) => {
+                const angle = (index * Math.PI / 2);
+                const delay = index * 2;
+                return (
+                  <motion.div
+                    key={`orbit-${index}`}
+                    className="absolute top-1/2 left-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-jspurple to-jsaccent"
+                    initial={{
+                      x: Math.cos(angle) * 150 - 8,
+                      y: Math.sin(angle) * 150 - 8,
+                    }}
+                    animate={{
+                      x: (t) => Math.cos(t * 2 * Math.PI + angle) * 150 - 8,
+                      y: (t) => Math.sin(t * 2 * Math.PI + angle) * 150 - 8,
+                      scale: [1, 1.5, 1],
+                      opacity: [0.7, 1, 0.7]
+                    }}
+                    transition={{
+                      duration: 15,
+                      delay,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-white"
+                      animate={{
+                        opacity: [0, 0.8, 0],
+                        scale: [1, 2, 1]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: Math.random() * 2
+                      }}
+                    />
+                  </motion.div>
+                );
+              })}
+              
+              {/* Data streams */}
+              {[...Array(16)].map((_, index) => {
+                const speed = 3 + Math.random() * 5;
+                const size = 1 + Math.random() * 2;
+                const delay = Math.random() * 6;
+                const angle = Math.random() * Math.PI * 2;
+                
+                return (
+                  <motion.div
+                    key={`data-stream-${index}`}
+                    className="absolute top-1/2 left-1/2 rounded-full bg-white/70"
+                    style={{
+                      width: `${size}px`,
+                      height: `${size}px`,
+                    }}
+                    initial={{
+                      x: 0,
+                      y: 0,
+                      opacity: 0,
+                    }}
+                    animate={{
+                      x: [0, Math.cos(angle) * 250],
+                      y: [0, Math.sin(angle) * 250],
+                      opacity: [0, 1, 0],
+                    }}
+                    transition={{
+                      duration: speed,
+                      delay,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
+                );
+              })}
+            </div>
           </motion.div>
 
           {/* Headquarters Section */}
@@ -441,7 +309,7 @@ const Locations = () => {
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white">Headquarters</h3>
-                <p className="text-gray-300 mb-2">{headquarters.address.join(", ")}</p>
+                <p className="text-white mb-2">{headquarters.address.join(", ")}</p>
                 <a 
                   href={`tel:${headquarters.address[2].split(": ")[1]}`} 
                   className="text-jsaccent hover:underline inline-flex items-center"
@@ -473,7 +341,7 @@ const Locations = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-white">{location.city}, {location.country}</h3>
-                    <p className="text-xs text-gray-400">{location.address.join(", ")}</p>
+                    <p className="text-xs text-white/80">{location.address.join(", ")}</p>
                   </div>
                 </div>
               </motion.div>

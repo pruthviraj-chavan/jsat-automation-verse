@@ -92,9 +92,36 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    scroll-behavior: smooth;
   }
 }
 
+/* Custom Colors */
+.text-jspurple {
+  @apply text-[#8B5CF6];
+}
+
+.bg-jspurple {
+  @apply bg-[#8B5CF6];
+}
+
+.text-jsaccent {
+  @apply text-[#0EA5E9];
+}
+
+.bg-jsaccent {
+  @apply bg-[#0EA5E9];
+}
+
+.bg-jsblue {
+  @apply bg-[#1A1F2C];
+}
+
+.text-jsblue {
+  @apply text-[#1A1F2C];
+}
+
+/* Card 3D effect */
 .card3d {
   transform-style: preserve-3d;
   transition: transform 0.5s ease;
@@ -104,27 +131,32 @@
   transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
 }
 
+/* Grid pattern for backgrounds */
 .grid-pattern {
   background-image: radial-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px);
   background-size: 30px 30px;
 }
 
+/* Gradient text for highlights */
 .gradient-text {
   @apply bg-gradient-to-r from-jspurple to-jsaccent bg-clip-text text-transparent;
 }
 
+/* Hero section gradients */
 .hero-light-gradient {
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.95), rgba(240, 245, 255, 0.98));
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.98), rgba(240, 245, 255, 0.99));
 }
 
 .hero-dark-gradient {
-  background: linear-gradient(to bottom right, rgba(26, 31, 44, 0.95), rgba(13, 16, 23, 0.98));
+  background: linear-gradient(to bottom right, rgba(26, 31, 44, 0.98), rgba(13, 16, 23, 0.99));
 }
 
+/* Consistent section padding */
 .section-padding {
   @apply py-16 md:py-24;
 }
 
+/* 3D cube animation */
 @keyframes rotation {
   0% {
     transform: rotateY(0deg) rotateX(0deg);
@@ -139,6 +171,7 @@
   transform-style: preserve-3d;
 }
 
+/* Floating animation */
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
@@ -152,12 +185,15 @@
   animation: float 6s ease-in-out infinite;
 }
 
+/* Pulsing animation */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
+    transform: scale(1);
   }
   50% {
     opacity: 0.7;
+    transform: scale(1.05);
   }
 }
 
@@ -165,6 +201,7 @@
   animation: pulse 3s ease-in-out infinite;
 }
 
+/* Animated gradient background */
 .animated-gradient-bg {
   background: linear-gradient(-45deg, #8B5CF6, #0EA5E9, #1A1F2C, #A855F7);
   background-size: 400% 400%;
@@ -183,11 +220,9 @@
   }
 }
 
-/* World map for locations */
-.world-map {
-  @apply relative bg-jsblue rounded-lg overflow-hidden;
-  background-image: url('/world-map-dots.png');
-  background-size: cover;
+/* Earth animation for Locations */
+.earth-animation {
+  @apply relative bg-jsblue/80 rounded-lg overflow-hidden;
   background-position: center;
 }
 
@@ -213,13 +248,60 @@
   animation: pulse 2s infinite;
 }
 
+/* Animation delay utility classes */
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animation-delay-150 {
+  animation-delay: 0.15s;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+/* Card and glass effects */
+.card-gradient {
+  @apply bg-gradient-to-br from-white to-gray-100 dark:from-jsblue/40 dark:to-jsblue/20 backdrop-blur-sm;
+}
+
+.glass-effect {
+  @apply bg-white/40 dark:bg-white/5 backdrop-blur-md border border-white/30 dark:border-white/10;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -227,7 +309,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-jspurple;
+  @apply bg-jspurple/70;
 }
 
 /* Responsive fixes */
@@ -242,5 +324,46 @@
   
   .section-padding {
     @apply py-10;
+  }
+}
+
+/* Shadow effects */
+.shadow-highlight {
+  box-shadow: 0 0 15px 5px rgba(139, 92, 246, 0.15);
+}
+
+.shadow-highlight-blue {
+  box-shadow: 0 0 15px 5px rgba(14, 165, 233, 0.15);
+}
+
+/* Button animations */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  20%, 100% {
+    transform: translateX(100%) rotate(45deg);
   }
 }

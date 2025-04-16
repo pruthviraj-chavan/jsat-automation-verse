@@ -26,7 +26,7 @@ const Image: React.FC<ImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
-  const maxRetries = 2;
+  const maxRetries = 3;
   
   // Reset states when src changes
   useEffect(() => {
@@ -36,13 +36,15 @@ const Image: React.FC<ImageProps> = ({
   }, [src]);
 
   const handleImageError = () => {
+    console.log(`Image error: ${src}`);
     if (retryCount < maxRetries) {
-      // Try loading the image again after a short delay
+      // Try loading the image again after a short delay with cache busting
       setTimeout(() => {
         setRetryCount(prev => prev + 1);
         const imgElement = document.querySelector(`[data-src="${src}"]`) as HTMLImageElement;
         if (imgElement) {
-          imgElement.src = `${src}?retry=${retryCount + 1}`;
+          const cacheBuster = `?retry=${retryCount + 1}&t=${new Date().getTime()}`;
+          imgElement.src = src.includes('?') ? `${src}&cb=${cacheBuster}` : `${src}${cacheBuster}`;
         }
       }, 1000);
     } else {
