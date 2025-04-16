@@ -35,7 +35,7 @@ const Careers = () => {
     // Add meta description for SEO
     const metaDescription = document.createElement('meta');
     metaDescription.name = 'description';
-    metaDescription.content = 'Join the JSat Automation team and be part of a company that's driving innovation in automation, process control, and digital transformation. Explore career opportunities across our global offices.';
+    metaDescription.content = "Join the JSat Automation team and be part of a company that is driving innovation in automation, process control, and digital transformation. Explore career opportunities across our global offices.";
     document.head.appendChild(metaDescription);
     
     // Add keywords meta tag for SEO
@@ -411,8 +411,8 @@ const Careers = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Be part of a dynamic team that's shaping the future of automation and industry.
-              We're always looking for talented individuals who are passionate about innovation and excellence.
+              Be part of a dynamic team that is shaping the future of automation and industry.
+              We are always looking for talented individuals who are passionate about innovation and excellence.
             </motion.p>
           </div>
           
@@ -606,7 +606,7 @@ const Careers = () => {
               >
                 {filteredJobs.length > 0 ? (
                   filteredJobs.map((job) => (
-                    <motion.div 
+                    <div 
                       key={job.id}
                       className={`p-4 bg-white dark:bg-jsblue/20 rounded-lg border ${
                         selectedJob?.id === job.id 
@@ -636,7 +636,7 @@ const Careers = () => {
                           <span>{job.department} · {job.type}</span>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ))
                 ) : (
                   <div className="p-8 text-center text-gray-500 dark:text-gray-400">
@@ -702,4 +702,75 @@ const Careers = () => {
                       {selectedJob.requirements && (
                         <>
                           <h4 className="font-semibold mb-2">Requirements:</h4>
-                          <ul className="list-disc pl-5 text-gray-600 dark:text-gray-
+                          <ul className="list-disc pl-5 text-gray-600 dark:text-gray-300 space-y-1">
+                            {selectedJob.requirements.map((item, index) => (
+                              <li key={index}>{item}</li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                    </div>
+                    
+                    <Button 
+                      className="w-full md:w-auto bg-jspurple hover:bg-jspurple/90"
+                      onClick={() => handleApply(selectedJob)}
+                    >
+                      Apply for this Position
+                    </Button>
+                  </>
+                ) : (
+                  <div className="h-64 flex flex-col items-center justify-center text-center p-6 text-gray-500 dark:text-gray-400">
+                    <Briefcase size={48} className="mb-4 opacity-20" />
+                    <h3 className="text-lg font-semibold mb-2">Job Details</h3>
+                    <p>Select a job from the list to view details</p>
+                  </div>
+                )}
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Talent Community Section */}
+      <section className="py-16 bg-gradient-to-br from-jspurple via-jspurple/90 to-jsaccent/90 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            Join Our Talent Community
+          </motion.h2>
+          
+          <motion.p 
+            className="text-xl max-w-3xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            Do not see the right opportunity? Join our talent community to stay updated on future openings and events.
+          </motion.p>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <Button size="lg" variant="outline" className="bg-white text-jspurple hover:bg-gray-100 border-0">
+              Sign Up for Job Alerts
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+};
+
+export default Careers;
